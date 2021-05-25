@@ -2,6 +2,7 @@ import pygame
 import math
 import path
 pygame.init()
+h = 'b'
 paused = False
 red = pygame.sprite.Group()
 green = pygame.sprite.Group()
