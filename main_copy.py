@@ -2,7 +2,6 @@ import pygame
 import math
 import path
 pygame.init()
-k = 'hello'
 paused = False
 red = pygame.sprite.Group()
 green = pygame.sprite.Group()
@@ -24,7 +23,7 @@ textRect.center = (300, 230)
 # <-------------Music----------->
 pygame.mixer.init()
 pygame.mixer.music.load('Assets/Desmeon - Hellcat [NCS Release].mp3')
-# pygame.mixer.music.play(0)
+pygame.mixer.music.play(-1)
 # <-------------Music----------->
 
 class Disc:
@@ -33,7 +32,7 @@ class Disc:
 class Pawn(pygame.sprite.Sprite):
     def __init__(self, start_position):
         super().__init__()
-        self.positionNumber = 1      # changed to 1
+        self.positionNumber = 0      # changed to 1
         self.dx = 0
         self.dy = 0
         self.inMotion = True
@@ -159,13 +158,13 @@ class RedPawn(Pawn):
         self.rect.size = 10, 10
         self.rect.x, self.rect.y = start_position
         self.path = {0: start_position} | path.red | {59: start_position} | {60: (0,0)}
-        # self.starPosition = 'a'
+        self.starPosition = 'a'
 
     # def star_postion_check(self):
-    #     pass
-        # if path[self.positionNumber] >= 19 and path[self.positionNumber] <= 34:
-        #     self.starPosition = 'b'
-        #     pass
+    #     if path[self.positionNumber] >= 19 and path[self.positionNumber] <= 34:
+    #         self.starPosition = 'b'
+    #     elif:
+    #         pass
 
         # self.path = {0: start_position} | {2: (0,0)}
 
@@ -214,8 +213,8 @@ green3 = GreenPawn((501, 60+76))
 green4 = GreenPawn((501, 139+76))
 
 # red.add(red1, red2, red3, red4)
-red.add(red2)
-green.add(green2, green3, green4, red1, green1)
+red.add(red1, red2, red3, red4)
+green.add(green2, green3, green4, green1)
 # all_sprites.add(red1, red2, red3, red4, green1, green2, green3, green4)
 # print(all_sprites.sprites())
 
@@ -267,6 +266,9 @@ def g(a,d):
 l = []
 x = 2
 while carryOn:
+    red1.star_postion_check()
+    red2.star_postion_check()
+    red3.star_postion_check()
     screen.fill((255, 255, 255))
 
     pygame.draw.rect(screen, (21, 19, 21), pygame.Rect(0, 0, size[0], 75))
@@ -292,18 +294,15 @@ while carryOn:
     # p2.movement(0)
     # p3.movement(0)
     # p4.movement(0)
-# The world is a good place
-#     red.draw(screen)
-    green.draw(screen)
-    red1.movement2(20)
-    green4.movement2(0)
 
-    # red1.movement2(20)
-    # red2.movement2(2)
-    # green2.movement2(2)
-    # green1.movement2(2)
-    # green3.movement2(4)
-    # green4.movement2(4)
+    red.draw(screen)
+    green.draw(screen)
+    red1.movement2(10)
+    red2.movement2(58)
+    green2.movement2(58)
+    green1.movement2(2)
+    green3.movement2(4)
+    green4.movement2(4)
     # red.draw(screen)
     # print(t1.rect)
     # Collidecheck = pygame.sprite.spritecollide(p1, all_sprites, True, pygame.sprite.collide_circle)
@@ -334,10 +333,11 @@ while carryOn:
 
     if paused:
         pause_menu()
-    # collide_check = pygame.sprite.groupcollide(green, red, False, False)
-    # print(collide_check)
-    # for i in collide_check:
-    #     i.update(0)
+
+    collide_check = pygame.sprite.groupcollide(green, red, False, False)
+    print(collide_check)
+    for i in collide_check:
+        i.update(0)
     #     l.append(i)
     # print(l, 'stupid')
 

@@ -1,0 +1,1 @@
+print(tuple(range(1, 5)))
