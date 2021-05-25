@@ -297,7 +297,6 @@ while carryOn:
     red1.movement2(20)
     green4.movement2(0)
 
-
     # red1.movement2(20)
     # red2.movement2(2)
     # green2.movement2(2)
