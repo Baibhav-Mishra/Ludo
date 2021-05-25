@@ -291,12 +291,11 @@ while carryOn:
     # p2.movement(0)
     # p3.movement(0)
     # p4.movement(0)
-
-    red.draw(screen)
+# The world is a good place
+#     red.draw(screen)
     green.draw(screen)
     red1.movement2(20)
     green4.movement2(0)
-kkkk
 
     # red1.movement2(20)
     # red2.movement2(2)
