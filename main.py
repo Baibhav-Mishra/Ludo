@@ -296,7 +296,6 @@ while carryOn:
     green.draw(screen)
     red1.movement2(20)
     green4.movement2(0)
-kkkk
 
     # red1.movement2(20)
     # red2.movement2(2)
