@@ -1,3 +1,5 @@
+import functools
+
 import pygame
 import math
 import path
@@ -6,7 +8,6 @@ import time
 import itertools
 
 pygame.init()
-h = 'b'
 paused = False
 red = pygame.sprite.Group()
 green = pygame.sprite.Group()
@@ -59,14 +60,13 @@ class Disc(pygame.sprite.Sprite):
             self.image = pygame.transform.smoothscale(
                 pygame.image.load(f'Assets/Dice/D{str(dice_number)}.png').convert_alpha(),
                 (50, 50))
-            a = [1, 2, 3, 4]
-
             current_position = next(all_position_numbers)
 
 
 class Pawn(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
+        self.collision_targets = None
         self.positionNumber = 0  # changed to 1
         self.dx = 0
         self.dy = 0
@@ -86,7 +86,6 @@ class Pawn(pygame.sprite.Sprite):
         self.isMoving = False
         self.globalPosition = 0
 
-
     def clicked(self):
         global dice_number
         # print('dice gamers')
@@ -95,18 +94,11 @@ class Pawn(pygame.sprite.Sprite):
             print(current_position, 'current_position')
             if math.dist((self.path[self.positionNumber]),
                          pygame.mouse.get_pos()) <= 40 and self.number == current_position:
-                print("gamers nwxu")
                 self.t += dice_number
                 self.globalPosition += dice_number
                 print(self.t)
-                # print(self.t)
-                # print(dice_number, 'melfm')
-                # print('helloknkjn')
-                abc = 'color'
-
-                # print(self.__getattribute__(abc))
-
                 self.collided = False
+                collision_check(self.color, self)
 
     def movement2(self):
         global object_path
@@ -141,7 +133,7 @@ class Pawn(pygame.sprite.Sprite):
                     # self.collision()
                     self.positionNumber += 1
 
-                    self.collision()  # checking for collision every step
+                    # self.collision()  # checking for collision every step
 
                     self.starPositionNumber += 1
                 else:
@@ -211,34 +203,41 @@ class Pawn(pygame.sprite.Sprite):
     #         l.remove(j)
     #         pass
 
+    # def collision(self):
+    #     # collision_targets = [[green1.globalPosition, "green1"], [green2.globalPosition, "green2"],
+    #     #                      [green3.globalPosition, "green3"], [green4.globalPosition, "green4"]]
+    #     collision_targets = self.collision_targets
+    #
+    #     for target_position, target_name in self.collision_targets:
+    #         if self.globalPosition == target_position:
+    #             print(target_name)
+    #             eval(f"{target_name}.home()")  # Will go back to to square 1
+    #
+    # def home(self):
+    #     """This function is helps to go back to home"""
+    #     self.positionNumber = 0
+    #     self.globalPosition = 1
+    #     self.t = 0
+
 
 class RedPawn(Pawn):
     def __init__(self, start_position):
         super().__init__()
         self.color = 'red'
-        self.image = pygame.image.load('Assets/untitled (1).png')
+        self.image = pygame.image.load('Assets/Untitled (2).png')
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = start_position
         self.path = {0: start_position} | path.red
         self.number = 1
         self.globalPosition = 1
-
-    def collision(self):
-        collision_targets = [[green1.globalPosition, "green1"], [green2.globalPosition, "green2"],
-                             [green3.globalPosition, "green3"], [green4.globalPosition, "green4"]]
-
-        for target_position, target_name in collision_targets:
-            if self.globalPosition == target_position:
-                print(target_name)
-                eval(f"{target_name}.home()")  # Will go back to to square 1
+        # self.collision_targets = [[green1.globalPosition, "green1"], [green2.globalPosition, "green2"],
+        #                           [green3.globalPosition, "green3"], [green4.globalPosition, "green4"]]
 
     def home(self):
         """This function is helps to go back to home"""
         self.positionNumber = 0
         self.globalPosition = 1
         self.t = 0
-
-
 class BluePawn(Pawn):
     def __init__(self, start_position):
         super().__init__()
@@ -258,19 +257,19 @@ class YellowPawn(Pawn):
         self.number = 3
         self.globalPosition = 27
 
-    def collision(self):
-        collision_targets = [[green1.globalPosition, "green1"], [green2.globalPosition, "green2"],
-                             [green3.globalPosition, "green3"], [green4.globalPosition, "green4"]]
-
-        for target_position, target_name in collision_targets:
-            if self.globalPosition == target_position:
-                print(target_name)
-                eval(f"{target_name}.home()")  # Will go back to to square 1
+    # def collision(self):
+    #     collision_targets = [[green1.globalPosition, "green1"], [green2.globalPosition, "green2"],
+    #                          [green3.globalPosition, "green3"], [green4.globalPosition, "green4"]]
+    #
+    #     for target_position, target_name in collision_targets:
+    #         if self.globalPosition == target_position:
+    #             print(target_name)
+    #             eval(f"{target_name}.home()")  # Will go back to to square 1
 
     def home(self):
         """This function is helps to go back to home"""
         self.positionNumber = 0
-        self.globalPosition = 1
+        self.globalPosition = 27
         self.t = 0
 
 
@@ -294,28 +293,33 @@ class GreenPawn(Pawn):
         self.t = 0
 
     def collision(self):
+        pass
         # print("My position number for green is," , self.globalPosition)
-        collision_targets = [[red1.globalPosition, "red1"], [red2.globalPosition, "red2"],
-                             [red3.globalPosition, "red3"], [red4.globalPosition, "red4"]]
+        # collision_targets = [[red1.globalPosition, "red1"], [red2.globalPosition, "red2"],
+        #                      [red3.globalPosition, "red3"], [red4.globalPosition, "red4"]]
+        #
+        # for target_position, target_name in collision_targets:
+        #     if self.globalPosition == target_position:
+        #         print(target_name)
+        #         eval(f"{target_name}.home()")  # Will go back to to square 1
 
-        for target_position, target_name in collision_targets:
-            if self.globalPosition == target_position:
-                print(target_name)
-                eval(f"{target_name}.home()")  # Will go back to to square 1
 
 
 # <-----------------------Object Creation--------------->
-red1 = RedPawn((141, 139 + 76))
-red2 = RedPawn((141, 60 + 76))
-red3 = RedPawn((61, 60 + 76))
-red4 = RedPawn((61, 139 + 76))
+red1 = RedPawn((140, 138 + 76))
+red2 = RedPawn((140, 59 + 76))
+red3 = RedPawn((60, 59 + 76))
+red4 = RedPawn((60, 138 + 76))
 green1 = GreenPawn((419, 60 + 76))
 green2 = GreenPawn((419, 139 + 76))
 green3 = GreenPawn((501, 60 + 76))
 green4 = GreenPawn((501, 139 + 76))
-yellow1 = YellowPawn((100, 100))
+yellow1 = YellowPawn((501, 496))
+yellow2 = YellowPawn((419, 496))
+yellow3 = YellowPawn((501, 573))
+yellow4 = YellowPawn((419, 573))
 
-all_sprites.add(red1, red2, red3, red4, green1, green2, green3, green4, yellow1)
+all_sprites.add(red1, red2, red3, red4, green1, green2, green3, green4, yellow1, yellow2, yellow3, yellow4)
 # print(all_sprites.sprites())
 d = Disc()
 dice.add(d)
@@ -363,15 +367,33 @@ def pause_menu():
     pygame.draw.rect(screen, (24, 24, 24), pygame.Rect(200, 200, 200, 300), 0, 10)
     screen.blit(text, textRect)
     volume_slider(210, 350)
-    print('fppp')
-
-
-def g(a, d):
-    return g(a, d)
-
 
 l = []
 x = 2
+
+
+a = 0
+# l []
+def collision_check(color, currently_moving):
+    sprites = {'red': (red1, red2, red3, red4), 'green': (green1, green2, green3, green4), 'yellow':(yellow1,yellow2)}
+    sprites.pop(color)
+    collision_targets = list(sprites.values())  # list of tuples of different colors
+    for i in collision_targets:
+        for j in i:
+            print(j)
+            if currently_moving.globalPosition == j.globalPosition:
+                j.home()
+
+
+
+
+# sprites = {'red': (red1, red2, red3, red4), 'green': (green1, green2, green3, green4), 'yellow':(yellow1,)}
+global_position_list = [red1.globalPosition, red2.globalPosition, red3]
+globals = []
+# collision_check(sprites)
+
+
+
 while carryOn:
     screen.fill((255, 255, 255))
 
@@ -396,7 +418,9 @@ while carryOn:
     green3.movement2()
     green4.movement2()
     yellow1.movement2()
-
+    yellow2.movement2()
+    yellow3.movement2()
+    yellow4.movement2()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # If user clicked close
             carryOn = False  # Flag that we are done so we exit this loop
@@ -410,7 +434,12 @@ while carryOn:
             green3.clicked()
             green4.clicked()
             yellow1.clicked()
+            yellow2.clicked()
+            yellow3.clicked()
+            yellow4.clicked()
             d.clicked()
+
+
 
 
         elif event.type == pygame.KEYDOWN:
