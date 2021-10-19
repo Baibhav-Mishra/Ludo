@@ -94,11 +94,13 @@ class Pawn(pygame.sprite.Sprite):
             print(current_position, 'current_position')
             if math.dist((self.path[self.positionNumber]),
                          pygame.mouse.get_pos()) <= 40 and self.number == current_position:
-                self.t += dice_number
-                self.globalPosition += dice_number
-                print(self.t)
-                self.collided = False
-                collision_check(self.color, self)
+                if self.t == 0 and dice_number == 6:
+                    self.t += 1
+                elif self.t > 0:
+                    self.t += dice_number
+                    self.globalPosition += dice_number
+                    self.collided = False
+                    collision_check(self.color, self)
 
     def movement2(self):
         global object_path
@@ -107,7 +109,7 @@ class Pawn(pygame.sprite.Sprite):
             # print(movement_no)
             # print(movement_no)
             # print(self.path[0])
-            pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
+            # pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
             x_complete = y_complete = False
             # print(t)
             point = self.path[self.positionNumber]
@@ -152,6 +154,9 @@ class Pawn(pygame.sprite.Sprite):
     # def collision(self):
     #     if self.globalPosition ==
     #     pass
+# d1 = red:(), blue:()
+# ((red1, red2),(blie1,),(ddkjd,sdfsdf))
+# (red1, red2,blue1,ddkjd)
 
     # print(self.starPath.get(self))
     # print(object_path)
@@ -226,7 +231,7 @@ class RedPawn(Pawn):
         self.color = 'red'
         self.image = pygame.image.load('Assets/Untitled (2).png')
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = start_position
+        self.rect.x, self.rect.y = start_position  # remove this to start from the beginning
         self.path = {0: start_position} | path.red
         self.number = 1
         self.globalPosition = 1
@@ -238,6 +243,8 @@ class RedPawn(Pawn):
         self.positionNumber = 0
         self.globalPosition = 1
         self.t = 0
+
+
 class BluePawn(Pawn):
     def __init__(self, start_position):
         super().__init__()
@@ -304,7 +311,6 @@ class GreenPawn(Pawn):
         #         eval(f"{target_name}.home()")  # Will go back to to square 1
 
 
-
 # <-----------------------Object Creation--------------->
 red1 = RedPawn((140, 138 + 76))
 red2 = RedPawn((140, 59 + 76))
@@ -368,22 +374,33 @@ def pause_menu():
     screen.blit(text, textRect)
     volume_slider(210, 350)
 
+
 l = []
 x = 2
 
-
 a = 0
+
+
 # l []
 def collision_check(color, currently_moving):
-    sprites = {'red': (red1, red2, red3, red4), 'green': (green1, green2, green3, green4), 'yellow':(yellow1,yellow2)}
+    # sprites = [red1, red1, red2, red3, green1, green2, green3, green4, yellow1, yellow2, yellow3, yellow4]
+    # sprites = [red1.globalPosition, red2.globalPosition, red3.globalPosition, red4.globalPosition]
+    #
+    # # sprite_speed = [red1, red2, red3, green1, green2, green3, green4, yellow1, yellow2, yellow3, yellow4]
+    # for i in sprites:
+    #
+    #
+    # try:
+    #     sprites.index()
+    sprites = {'red': (red1, red2, red3, red4), 'green': (green1, green2, green3, green4), 'yellow': (yellow1, yellow2)}
     sprites.pop(color)
-    collision_targets = list(sprites.values())  # list of tuples of different colors
+    collision_targets = (sprites.values())  # list of tuples of different colors
+
     for i in collision_targets:
         for j in i:
             print(j)
-            if currently_moving.globalPosition == j.globalPosition:
+            if currently_moving.globalPosition == j.globalPosition and j.globalPosition not in [1, 9, 14, 22, 27, 35, 40, 48]:
                 j.home()
-
 
 
 
@@ -391,7 +408,6 @@ def collision_check(color, currently_moving):
 global_position_list = [red1.globalPosition, red2.globalPosition, red3]
 globals = []
 # collision_check(sprites)
-
 
 
 while carryOn:
@@ -438,9 +454,6 @@ while carryOn:
             yellow3.clicked()
             yellow4.clicked()
             d.clicked()
-
-
-
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
