@@ -1,12 +1,10 @@
 import functools
-
 import pygame
 import math
 import path
 import random
 import time
 import itertools
-
 pygame.init()
 paused = False
 red = pygame.sprite.Group()
@@ -63,9 +61,13 @@ class Disc(pygame.sprite.Sprite):
             current_position = next(all_position_numbers)
 
 
+
+
+
 class Pawn(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
+        self.overlap = False
         self.collision_targets = None
         self.positionNumber = 0  # changed to 1
         self.dx = 0
@@ -90,10 +92,10 @@ class Pawn(pygame.sprite.Sprite):
         global dice_number
         # print('dice gamers')
         if event.type == pygame.MOUSEBUTTONDOWN:
-            print(self.number, 'selfnumber,')
-            print(current_position, 'current_position')
+            # print(self.number, 'selfnumber,')
+            # print(current_position, 'current_position')
             if math.dist((self.path[self.positionNumber]),
-                         pygame.mouse.get_pos()) <= 40 and self.number == current_position:
+                         pygame.mouse.get_pos()) <= 40 and self.number == current_position and self.overlap is False:
                 if self.t == 0 and dice_number == 6:
                     self.t += 1
                 elif self.t > 0:
@@ -101,6 +103,7 @@ class Pawn(pygame.sprite.Sprite):
                     self.globalPosition += dice_number
                     self.collided = False
                     collision_check(self.color, self)
+
 
     def movement2(self):
         global object_path
@@ -395,20 +398,36 @@ def collision_check(color, currently_moving):
     sprites = {'red': (red1, red2, red3, red4), 'green': (green1, green2, green3, green4), 'yellow': (yellow1, yellow2)}
     sprites.pop(color)
     collision_targets = (sprites.values())  # list of tuples of different colors
-
     for i in collision_targets:
         for j in i:
             print(j)
-            if currently_moving.globalPosition == j.globalPosition and j.globalPosition not in [1, 9, 14, 22, 27, 35, 40, 48]:
+            if currently_moving.globalPosition == j.globalPosition and j.globalPosition not in [1, 9, 14, 22, 27, 35, 40, 48] and currently_moving.color != j.color:
                 j.home()
+            elif currently_moving.color == j.color:
+                currently_moving.overlap = True
 
 
+def check_for_pawn_click():
+    if red1.number == current_position:
+        red1.clicked()
+        red2.clicked()
+        red3.clicked()
+        red4.clicked()
+    elif green1.number == current_position:
+        green1.clicked()
+        green2.clicked()
+        green3.clicked()
+        green4.clicked()
+    elif yellow1.number == current_position:
+        yellow1.clicked()
+        yellow2.clicked()
+        yellow3.clicked()
+        yellow4.clicked()
 
 # sprites = {'red': (red1, red2, red3, red4), 'green': (green1, green2, green3, green4), 'yellow':(yellow1,)}
 global_position_list = [red1.globalPosition, red2.globalPosition, red3]
 globals = []
 # collision_check(sprites)
-
 
 while carryOn:
     screen.fill((255, 255, 255))
@@ -424,7 +443,6 @@ while carryOn:
     # green.draw(screen)
     all_sprites.draw(screen)
     dice.draw(screen)
-
     red1.movement2()
     red2.movement2()
     red3.movement2()
@@ -441,18 +459,7 @@ while carryOn:
         if event.type == pygame.QUIT:  # If user clicked close
             carryOn = False  # Flag that we are done so we exit this loop
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            red1.clicked()
-            red2.clicked()
-            red3.clicked()
-            red4.clicked()
-            green1.clicked()
-            green2.clicked()
-            green3.clicked()
-            green4.clicked()
-            yellow1.clicked()
-            yellow2.clicked()
-            yellow3.clicked()
-            yellow4.clicked()
+            check_for_pawn_click()
             d.clicked()
 
         elif event.type == pygame.KEYDOWN:
