@@ -5,16 +5,16 @@ import path
 import random
 import time
 import mysql.connector
-con = mysql.connector.connect(host="localhost",password="root1234",user="root",database="Ludo")
+con = mysql.connector.connect(host="localhost", password="root1234", user="root", database="Ludo")
 cursor = con.cursor()
 cursor.execute("select * from info")
 results = cursor.fetchone()
 no_of_players = results[0]
 player1 = results[1]
-player2= results[2]
-player3= results[3]
+player2 = results[2]
+player3 = results[3]
 
-player4= results[4]
+player4 = results[4]
 import itertools
 pygame.init()
 paused = False
@@ -24,7 +24,7 @@ dice = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 size = (600, 800)
 screen = pygame.display.set_mode(size, pygame.RESIZABLE)
-dice_number = 0
+dice_number = 1
 pygame.display.set_caption("Ludo")
 board = pygame.image.load('Assets/board.png')
 pawn1_avatar_image = pygame.image.load('Assets/Untitled (2).png')
@@ -610,7 +610,7 @@ while carryOn:
     # pygame.draw.circle(screen, (255, 0, 0), (285, 750), 25)
     pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(360, 0, 300, 75), 0, 10)
     pygame.draw.rect(screen, (225, 39, 39), pygame.Rect(-60, 0, 300, 75), 0, 10)
-    pygame.draw.rect(screen, (230, 220, 36), pygame.Rect(360, 680, 300, 75), 0, 10)
+    pygame.draw.rect(screen, (230, 220, 36), pygame.Rect(350, 680, 300, 75), 0, 10)
     pygame.draw.rect(screen, (15, 45, 195), pygame.Rect(-60, 680, 300, 75), 0, 10)
     # red.draw(screen)
     # green.draw(screen)
@@ -633,7 +633,7 @@ while carryOn:
         textprint("Yellow's", (300, 25), (255, 255, 255))
     elif current_position == 4:
         textprint("Blue's", (300, 25), (255, 255, 255))
-
+    textprint(str(dice_number), (300, 770), (255, 255, 255))
     # print(all_sprites)
     all_sprites.draw(screen)
     dice.draw(screen)
