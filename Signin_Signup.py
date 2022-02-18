@@ -4,7 +4,7 @@ from home_forgot0 import *
 create database entry;
 
 create table members(Username varchar(30) primary key,
-User_age int, EmailID varchar(50), Password varchar(15)
+User_age int, EmailID varchar(50), Password varchar(15),
 secret_choice int, secret_pass varchar(60));
 '''
 

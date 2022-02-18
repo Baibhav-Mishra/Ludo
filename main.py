@@ -5,9 +5,9 @@ import path
 import random
 import time
 import mysql.connector
-con = mysql.connector.connect(host="localhost", password="root1234", user="root", database="Ludo")
+con = mysql.connector.connect(host="localhost", password="root1234", user="root", database="entry")
 cursor = con.cursor()
-cursor.execute("select * from info")
+cursor.execute("select * from info2")
 results = cursor.fetchone()
 no_of_players = results[0]
 player1 = results[1]
@@ -58,7 +58,7 @@ pawn_clicked = True
 pygame.mixer.init()
 pygame.mixer.music.load('Assets/Desmeon - Hellcat [NCS Release].mp3')
 
-pygame.mixer.music.play(0)
+pygame.mixer.music.play(-1)
 
 
 
@@ -99,7 +99,7 @@ class Disc(pygame.sprite.Sprite):
         global dice_clicked
         global pawn_clicked
         global colour_already_moved
-        if math.dist((self.rect.x, self.rect.y), pygame.mouse.get_pos()) <= 40:
+        if math.dist((self.rect.x + 35, self.rect.y+ 35), pygame.mouse.get_pos()) <= 39:
             # self.image = pygame.transform.smoothscale(pygame.image.load('Assets/Dice/D2.png').convert_alpha(),
             #                                           (50, 50))
             # print("dice clicked")
@@ -108,11 +108,13 @@ class Disc(pygame.sprite.Sprite):
                 colour_already_moved = False
                 current_position = next(all_position_numbers)
                 dice_number = random.randint(1, 6)
+                dice_number = 6
+
 
             else:
                 colour_already_moved = False
                 dice_number = random.randint(1, 6)
-            # dice_number = 6
+                dice_number = 6
             self.image = pygame.transform.smoothscale(
                 pygame.image.load(f'Assets/Dice/D{str(dice_number)}.png').convert_alpha(),
                 (50, 50))
@@ -165,8 +167,8 @@ class Pawn(pygame.sprite.Sprite):
         if event.type == pygame.MOUSEBUTTONDOWN :
             # print(self.number, 'selfnumber,')
             # print(current_position, 'current_position')
-            if math.dist((self.path[self.positionNumber]),
-                         pygame.mouse.get_pos()) <= 40 and self.number == current_position and pawn_clicked is True and self.target == [] and self.positionNumber + dice_number <= 57 and not colour_already_moved:
+            if math.dist((self.path[self.positionNumber][0]+20, self.path[self.positionNumber][1]+20),
+                         pygame.mouse.get_pos()) <= 25 and self.number == current_position and pawn_clicked is True and self.target == [] and self.positionNumber + dice_number <= 57 and not colour_already_moved:
                 colour_already_moved = True
                 # print(self.target)
                 # print(self.target.overlap, 'Fuck me!!!!')

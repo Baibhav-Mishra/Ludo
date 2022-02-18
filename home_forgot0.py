@@ -6,7 +6,7 @@ cred = {
     'host': 'localhost',
     'user': 'root',
     'password': 'root1234',
-    'database': 'ludo'
+    'database': 'entry'
 }
 
 con = mysql.connector.connect(**cred)
@@ -23,80 +23,28 @@ mycursor = con.cursor(buffered=True)
 
 
 def try_new():
-    root1 = Tk(className=' ' * 85 + 'Sign-In Screen')
+    final_val = ""
+    root1 = Tk(className=' ' * 85 + 'Player Names')
     canvas2 = Canvas(root1, width=700, height=400, bg='#00FFBC')
     canvas2.grid(columnspan=6, rowspan=15)
+    while True:
+        user = Label(root1, text='Enter player-{} name:'.format(1), font=('Fira Code SemiBold', 20), fg='blue', bg='#00FFBC')
+        user.grid(row=4, column=2)
+        e1 = Entry(root1, borderwidth=5)
+        e1.grid(row=4, column=3)
 
-    user = Label(root1, text='Enter Username:', font=('Fira Code SemiBold', 20), fg='blue', bg='#00FFBC')
-    user.grid(row=4, column=2)
-    e1 = Entry(root1, borderwidth=5)
-    e1.grid(row=4, column=3)
-    # y1 = e1.get()
-    passwd = Label(root1, text='Enter Password:', font=('Fira Code SemiBold', 20), fg='blue', bg='#00FFBC')
-    passwd.grid(row=8, column=2)
-    e2 = Entry(root1, borderwidth=5)
-    e2.grid(row=8, column=3)
-
-    def blankntype_in(a, b):
-        flag = 0
-        dt = [a, b]
-        for i in dt:
-            if len(i[0]) == 0:
-                messagebox.showerror('Python Error', 'Error: Field {0} Empty'.format(i[1]))
-                flag = 1
-                break
-        return flag
-
-    def check():
+        def blank_type(a):
+            global final_val
+            if len(a) == 0:
+                messagebox.showerror('Python Error', 'Error: Field {0} Empty'.format(a))
+            else:
+                return final_val
         y1 = (e1.get(), 'Enter Username: ')
-        y2 = (e2.get(), 'Enter Password: ')
-        verify = blankntype_in(y1, y2)
-        if verify == 0:
-            mycursor.execute('select Username from members')
-            for i in mycursor:
-                if y1[0] == i[0]:
-                    t = (y1[0],)
-                    mycursor.execute('select Password from members where Username = %s', t)
-                    for j in mycursor:
-                        if y2[0] == j[0]:
-                            print('Worked')
-                            root1.destroy()
-                            home_screen(y1[0])  # open the main window here
-                            break
-                        else:
-                            messagebox.showerror('Python Error', 'Error: Password entered does not match')
-                            break
-                    break
-            else:
-                messagebox.showerror('Python Error', 'Error: Username entered does not exist')
-
-
-        def forgot_clicked():  # when forgot password is pressed
-            global y
-            y = e1.get()
-            if y == '':
-                messagebox.showerror('Python Error', 'Error: Username Field Is Empty')
-            else:
-                mycursor.execute('select Username from members')
-                for i in mycursor:
-                    if y == i[0]:
-                        root1.destroy()
-                        forgot_screen(y)  # from home_forgot0.py
-                        # main()
-                        pass
-                        break
-                else:
-                    messagebox.showerror('Python Error', 'Error: Username Entered Does Not Exist')
-
         login1 = Button(root1, text='Enter', width=9, height=1, bg='grey', borderwidth=1,
-                        font=('Fira Code SemiBold', 15), command=check)
+                        font=('Fira Code SemiBold', 15), command=lambda : blank_type(y1))
         login1.grid(row=12, column=1, columnspan=2)
 
-        root1.bind('<Return>', lambda event: check())  # using enter key to proceed
-
-        reset_pass = Button(root1, text='forgot password', width=15, bg='#00FFBC', borderwidth=0,
-                            font=('Fira Code SemiBold', 10, 'italic'), command=forgot_clicked)
-        reset_pass.grid(row=13, column=2, columnspan=2)
+        root1.bind('<Return>', lambda event: blank_type(y1))  # using enter key to proceed
 
         def back_clicked():  # to go back to Welcome Screen
             root1.destroy()
@@ -119,13 +67,10 @@ def try_new():
 
 
 def run(number):
-    mycursor.execute('Delete from info')
+    # a=try_new()
+    mycursor.execute(f'insert into info2 values({number},"B","A","L","A")')
     con.commit()
-    mycursor.execute(f'insert into info values({number}, "Baibhav", "Lakshya", NULL)')
-    con.commit()
-    mycursor.execute('Delete from info2')
-    con.commit()
-    mycursor.execute(f'insert into info2 values("True")')
+    mycursor.execute(f'insert into info values("True")')
     con.commit()
     exit()
 
