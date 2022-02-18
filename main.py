@@ -3,9 +3,10 @@ import pygame
 import math
 import path
 import random
+import cred
 import time
 import mysql.connector
-con = mysql.connector.connect(host="localhost", password="root1234", user="root", database="entry")
+con = mysql.connector.connect(host=cred.host, password=cred.password, user=cred.user, database=cred.database)
 cursor = con.cursor()
 cursor.execute("select * from info2")
 results = cursor.fetchone()

@@ -1,24 +1,11 @@
 from tkinter import Button, Label, Entry, Canvas, mainloop, PhotoImage, Tk, StringVar, OptionMenu
 from tkinter import messagebox
 import mysql.connector
+import cred
 
-cred = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'root1234',
-    'database': 'entry'
-}
 
-con = mysql.connector.connect(**cred)
+con = mysql.connector.connect(host=cred.host, password=cred.password, user=cred.user, database=cred.database)
 mycursor = con.cursor(buffered=True)
-
-
-
-
-
-
-
-
 
 
 

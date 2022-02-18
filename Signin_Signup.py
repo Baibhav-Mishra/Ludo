@@ -46,7 +46,7 @@ def main():  # main window function
         # y1 = e1.get()
         passwd = Label(root1, text='Enter Password:', font=('Fira Code SemiBold', 20), fg='blue', bg='#00FFBC')
         passwd.grid(row=8, column=2)
-        e2 = Entry(root1, borderwidth=5)
+        e2 = Entry(root1, borderwidth=5, show='*')
         e2.grid(row=8, column=3)
 
         def blankntype_in(a, b):
