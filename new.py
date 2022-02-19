@@ -2,8 +2,8 @@ import mysql.connector
 import os
 from timeit import default_timer as timer
 from datetime import timedelta
-
-con = mysql.connector.connect(host="localhost",password="root1234",user="root",database="entry")
+import cred
+con = mysql.connector.connect(host=cred.host, password=cred.password, user=cred.user, database=cred.database)
 cursor = con.cursor()
 cursor.execute('Delete from info2')
 con.commit()
