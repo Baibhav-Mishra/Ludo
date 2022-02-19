@@ -1,11 +1,11 @@
-import functools
 import pygame
 import math
 import path
 import random
 import cred
-import time
 import mysql.connector
+import itertools
+
 con = mysql.connector.connect(host=cred.host, password=cred.password, user=cred.user, database=cred.database)
 cursor = con.cursor()
 cursor.execute("select * from info2")
@@ -14,10 +14,10 @@ no_of_players = results[0]
 player1 = results[1]
 player2 = results[2]
 player3 = results[3]
-
 player4 = results[4]
-import itertools
+
 pygame.init()
+
 paused = False
 red = pygame.sprite.Group()
 green = pygame.sprite.Group()
@@ -27,17 +27,17 @@ size = (600, 800)
 screen = pygame.display.set_mode(size, pygame.RESIZABLE)
 dice_number = 1
 pygame.display.set_caption("Ludo")
-board = pygame.image.load('Assets/board.png')
-pawn1_avatar_image = pygame.image.load('Assets/Untitled (2).png')
-pawn2_avatar_image = pygame.image.load('Assets/green.png')
-pawn3_avatar_image = pygame.image.load('Assets/blue.png')
-pawn4_avatar_image = pygame.image.load('Assets/yellow.png')
+board = pygame.image.load('Assets/Boards/board600px.png')
+pawn1_avatar_image = pygame.image.load('Assets/Pieces/red.png')
+pawn2_avatar_image = pygame.image.load('Assets/Pieces/green.png')
+pawn3_avatar_image = pygame.image.load('Assets/Pieces/blue.png')
+pawn4_avatar_image = pygame.image.load('Assets/Pieces/yellow.png')
 colour_already_moved = False
 pygame.display.set_icon(board)
 carryOn = True
 clock = pygame.time.Clock()
 current_position = 0
-font = pygame.font.Font('Assets/Montserrat-Medium.ttf', 25)
+font = pygame.font.Font('Assets/Fonts/Montserrat-Medium.ttf', 25)
 text = font.render('PAUSE', True, (255, 255, 255))
 pawn1_username = font.render('Red_Username', True, (255, 255, 255))
 
@@ -85,12 +85,8 @@ class Disc(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.transform.smoothscale(pygame.image.load('Assets/Dice/D1.png').convert_alpha(), (50, 50))
-        # self.image1 = pygame.transform.smoothscale(pygame.image.load('Assets/Dice/disc1.png').convert_alpha(), (50, 50))
         self.rect = self.image.get_rect()
         self.rect.size = (300, 300)
-        # self.rect.x, self.rect.y = (150, 680)
-        # self.rect = self.image.get_rect()
-        # # self.rect.size
         self.rect.x, self.rect.y = (275, 695)
         self.overlap = False
 
@@ -172,8 +168,8 @@ class Pawn(pygame.sprite.Sprite):
                          pygame.mouse.get_pos()) <= 25 and self.number == current_position and pawn_clicked is True and self.target == [] and self.positionNumber + dice_number <= 57 and not colour_already_moved:
                 colour_already_moved = True
                 # print(self.target)
-                # print(self.target.overlap, 'Fuck me!!!!')
-                # print(self.target.globalPosition, 'I am dead')
+                # print(self.target.overlap)
+                # print(self.target.globalPosition)
                 if self.t == 0 and dice_number == 6:
                     self.t += 1
                 elif self.t > 0:
@@ -250,7 +246,7 @@ class RedPawn(Pawn):
     def __init__(self, start_position):
         super().__init__()
         self.color = 'red'
-        self.image = pygame.image.load('Assets/Untitled (2).png')
+        self.image = pygame.image.load('Assets/Pieces/red.png')
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = start_position  # remove this to start from the beginning
         self.path = {0: start_position} | path.red
@@ -270,7 +266,7 @@ class BluePawn(Pawn):
     def __init__(self, start_position):
         super().__init__()
         self.color = 'blue'
-        self.image = pygame.image.load('Assets/blue.png')
+        self.image = pygame.image.load('Assets/Pieces/blue.png')
         self.path = {0: start_position, 1: (780, 0), 2: (0, 0), 3: (100, 300), 4: (100, 100)}
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = start_position
@@ -289,7 +285,7 @@ class YellowPawn(Pawn):
     def __init__(self, start_position):
         super().__init__()
         self.color = 'yellow'
-        self.image = pygame.image.load('Assets/yellow.png')
+        self.image = pygame.image.load('Assets/Pieces/yellow.png')
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = start_position
         self.path = {0: start_position} | path.yellow
@@ -316,7 +312,7 @@ class GreenPawn(Pawn):
     def __init__(self, start_position):
         super().__init__()
         self.color = 'green'
-        self.image = pygame.image.load('Assets/green.png')
+        self.image = pygame.image.load('Assets/Pieces/green.png')
         self.rect = self.image.get_rect()
         self.rect.size = 10, 10
         self.rect.x, self.rect.y = start_position
@@ -453,12 +449,6 @@ dice.add(d)
 # all_sprites = pygame.sprite.Group()
 # print(all_sprites)
 # <-----------------------Object Creation--------------->
-# def resume():
-#     sql = "INSERT INTO customers (name, address) VALUES (%s, %s)"
-#     val = ("John", "Highway 21")
-#     mycursor.execute(sql, val)
-#     pass
-
 
 
 
@@ -595,15 +585,7 @@ globals = []
 # collision_check(sprites)
 
 while carryOn:
-    # for k in i.target:
-    #     print('target for i', k.number, k.color, k.path[0])
-    #
-    # for j in currently_moving.target:
-    #     print('target for currently_moving', j.number, j.color, j.path[0])
-    # print(red1.target[0], 'red1')
 
-    # print(red2.target[0],'red2')
-    # print(red2.target[0], 'red3')
     screen.fill((255, 255, 255))
 
     pygame.draw.rect(screen, (21, 19, 21), pygame.Rect(0, 0, size[0], 75))

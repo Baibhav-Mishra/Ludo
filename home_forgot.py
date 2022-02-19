@@ -64,14 +64,13 @@ def run(number):
 def home_screen(x):
     # pass_root.destroy()
     home_root = Tk(className=' ' * 80 + 'Home Screen')
-    home_root.iconbitmap('ludoicon.ico')
+    home_root.iconbitmap('ludo_icon.ico')
     home_canvas = Canvas(home_root, width=650, height=500, bg='#00FFBC')
     home_canvas.grid(columnspan=8, rowspan=45)
-
     def multi_options(x):
         if x == 'Y':
             opt_root = Tk(className=' ')
-            opt_root.iconbitmap('ludoicon.ico')
+            opt_root.iconbitmap('ludo_icon.ico')
             opt_root.geometry('+{}+{}'.format(int(opt_root.winfo_screenwidth()/2-opt_root.winfo_reqwidth()/2),
                                               int(opt_root.winfo_screenheight()/2-opt_root.winfo_reqheight()/2)))
             opt_canvas = Canvas(opt_root, width=200, height=200, bg='#00FFBC')
@@ -99,7 +98,7 @@ def home_screen(x):
     greet2 = Label(home_root, text='Hello {}!'.format(x), font=('Fira Code', 28), fg='blue', bg='#00FFBC')
     greet2.grid(row=3, column=2, columnspan=4)
 
-    bg = PhotoImage(file='ludo.png')
+    bg = PhotoImage(file='Assets/Boards/board300px.png')
     ludo = Label(home_root, image=bg)
     ludo.grid(row=5, column=2, columnspan=4)
 
@@ -113,7 +112,7 @@ def home_screen(x):
 
     def setting_screen():
         set_root = Tk(className=' ' * 39 + 'Settings Screen')
-        set_root.iconbitmap('ludoicon.ico')
+        set_root.iconbitmap('ludo_icon.ico')
         set_root.geometry('400x300+{}+{}'.format(int(set_root.winfo_screenwidth() / 2 - set_root.winfo_reqwidth() / 2),
                           int(set_root.winfo_screenheight() / 2 - set_root.winfo_reqheight() / 2)))
         set_canvas = Canvas(set_root, width=400, height=300, bg='#00FFBC')
@@ -147,12 +146,12 @@ def home_screen(x):
                             font=('Fira Code SemiBold', 15), command=del_acc)
         delete_acc.grid(row=1, column=2)
 
-    sett = PhotoImage(file='settings_64.png')
+    sett = PhotoImage(file='Assets/Icon/settings_64.png')
 
     setting = Button(home_root, image=sett, bg='#00FFBC', borderwidth=0, command=setting_screen)
     setting.grid(row=2, column=6, columnspan=2)
 
-    close = PhotoImage(file='close_48.png')
+    close = PhotoImage(file='Assets/Icon/close_48.png')
 
     stop = Button(home_root, image=close, command=home_root.destroy, bg='#00FFBC', borderwidth=0)
     stop.grid(row=27, column=6, columnspan=2)
@@ -166,7 +165,7 @@ count, c = 0, 0
 def forgot_screen(z):
     # pass_root.destroy()
     pass_root = Tk(className=' ' * 60 + 'Forgot Password')
-    pass_root.iconbitmap('ludoicon.ico')
+    pass_root.iconbitmap('ludo_icon.ico')
     pass_canvas = Canvas(pass_root, width=550, height=350, bg='#00FFBC')
     pass_canvas.grid(columnspan=7, rowspan=8)
 
@@ -194,7 +193,7 @@ def forgot_screen(z):
 
     def change_pass(z):  # to change password
         change_root = Tk(className=' ' * 60 + 'Change Password')
-        change_root.iconbitmap('ludoicon.ico')
+        change_root.iconbitmap('ludo_icon.ico')
         change_canvas = Canvas(change_root, width=550, height=350, bg='#00FFBC')
         change_canvas.grid(columnspan=7, rowspan=10)
 
@@ -250,7 +249,7 @@ def forgot_screen(z):
                 break
 
         secure_root = Tk(className=' ' * 65 + 'Security Check')
-        secure_root.iconbitmap('ludoicon.ico')
+        secure_root.iconbitmap('ludo_icon.ico')
         change_canvas = Canvas(secure_root, width=550, height=250, bg='#00FFBC')
         change_canvas.grid(columnspan=7, rowspan=5)
         secure_passwd = Label(secure_root, text='Enter Security Password:', font=('Fira Code SemiBold', 20),

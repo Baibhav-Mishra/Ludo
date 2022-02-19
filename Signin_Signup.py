@@ -1,4 +1,4 @@
-from home_forgot0 import *
+from home_forgot import *
 
 '''
 create database entry;
@@ -92,7 +92,7 @@ def main():  # main window function
                 for i in mycursor:
                     if y == i[0]:
                         root1.destroy()
-                        forgot_screen(y)  # from home_forgot0.py
+                        forgot_screen(y)  # from home_forgot.py
                         main()
                         break
                 else:
@@ -249,7 +249,7 @@ def main():  # main window function
 
     root = Tk()
     root.title(' '*103+'Welcome Screen')
-    root.iconbitmap('ludoicon.ico')
+    root.iconbitmap('ludo_icon.ico')
 
     canvas1 = Canvas(root, width=800, height=500, bg='#00FFBC')
     canvas1.grid(columnspan=4, rowspan=20)
