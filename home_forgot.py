@@ -8,65 +8,143 @@ con = mysql.connector.connect(host=cred.host, password=cred.password, user=cred.
 mycursor = con.cursor(buffered=True)
 
 
+final_val = []
 
-def try_new():
-    final_val = ""
+
+def try_new(num):
     root1 = Tk(className=' ' * 85 + 'Player Names')
     canvas2 = Canvas(root1, width=700, height=400, bg='#00FFBC')
     canvas2.grid(columnspan=6, rowspan=15)
-    while True:
-        user = Label(root1, text='Enter player-{} name:'.format(1), font=('Fira Code SemiBold', 20), fg='blue', bg='#00FFBC')
-        user.grid(row=4, column=2)
+    if num == 2:
+        user1 = Label(root1, text='Enter player - {0} name:'.format(2), font=('Fira Code SemiBold', 20), fg='blue', bg='#00FFBC')
+        user1.grid(row=3, column=2)
         e1 = Entry(root1, borderwidth=5)
-        e1.grid(row=4, column=3)
+        e1.grid(row=3, column=3)
 
-        def blank_type(a):
+        def blank_type():
+            y1 = e1.get()
             global final_val
-            if len(a) == 0:
-                messagebox.showerror('Python Error', 'Error: Field {0} Empty'.format(a))
+            if len(y1) == 0:
+                messagebox.showerror('Python Error', 'Error: Username Field is Empty')
             else:
-                return final_val
-        y1 = (e1.get(), 'Enter Username: ')
+                final_val.append(y1)
+                run(num)
+
         login1 = Button(root1, text='Enter', width=9, height=1, bg='grey', borderwidth=1,
-                        font=('Fira Code SemiBold', 15), command=lambda : blank_type(y1))
+                        font=('Fira Code SemiBold', 15), command=blank_type)
         login1.grid(row=12, column=1, columnspan=2)
 
-        root1.bind('<Return>', lambda event: blank_type(y1))  # using enter key to proceed
+        root1.bind('<Return>', lambda event: blank_type())  # using enter key to proceed
 
-        def back_clicked():  # to go back to Welcome Screen
-            root1.destroy()
-            # main()
-            pass
-        back1 = Button(root1, text='Go Back', width=9, height=1, bg='grey', borderwidth=1,
-                       font=('Fira Code SemiBold', 15), command=back_clicked)
-        back1.grid(row=12, column=3)
+    if num == 3:
+        user1 = Label(root1, text='Enter player - {0} name:'.format(2), font=('Fira Code SemiBold', 20), fg='blue', bg='#00FFBC')
+        user1.grid(row=3, column=2)
+        e1 = Entry(root1, borderwidth=5)
+        e1.grid(row=3, column=3)
 
+        user2 = Label(root1, text='Enter player - {0} name:'.format(3), font=('Fira Code SemiBold', 20), fg='blue',
+                     bg='#00FFBC')
+        user2.grid(row=5, column=2)
+        e2 = Entry(root1, borderwidth=5)
+        e2.grid(row=5, column=3)
 
+        def blank_type():
+            y1 = e1.get()
+            y2 = e2.get()
+            global final_val
+            if len(y1) == 0 or len(y2) == 0:
+                messagebox.showerror('Python Error', 'Error: Username Field is Empty')
+            else:
+                final_val.append(y1)
+                final_val.append(y2)
+                run(num)
 
+        login1 = Button(root1, text='Enter', width=9, height=1, bg='grey', borderwidth=1,
+                        font=('Fira Code SemiBold', 15), command=blank_type)
+        login1.grid(row=12, column=1, columnspan=2)
 
+        root1.bind('<Return>', lambda event: blank_type())  # using enter key to proceed
 
+    if num == 4:
+        user1 = Label(root1, text='Enter player - {0} name:'.format(2), font=('Fira Code SemiBold', 20), fg='blue', bg='#00FFBC')
+        user1.grid(row=3, column=2)
+        e1 = Entry(root1, borderwidth=5)
+        e1.grid(row=3, column=3)
 
+        user2 = Label(root1, text='Enter player - {0} name:'.format(3), font=('Fira Code SemiBold', 20), fg='blue',
+                     bg='#00FFBC')
+        user2.grid(row=5, column=2)
+        e2 = Entry(root1, borderwidth=5)
+        e2.grid(row=5, column=3)
 
+        user3 = Label(root1, text='Enter player - {0} name:'.format(4), font=('Fira Code SemiBold', 20), fg='blue',
+                      bg='#00FFBC')
+        user3.grid(row=7, column=2)
+        e3 = Entry(root1, borderwidth=5)
+        e3.grid(row=7, column=3)
 
+        def blank_type():
+            y1 = e1.get()
+            y2 = e2.get()
+            y3 = e3.get()
+            global final_val
+            if len(y1) == 0 or len(y2) == 0 or len(y3) == 0:
+                messagebox.showerror('Python Error', 'Error: Username Field is Empty')
+            else:
+                final_val.append(y1)
+                final_val.append(y2)
+                final_val.append(y3)
+                run(num)
 
+        login1 = Button(root1, text='Enter', width=9, height=1, bg='grey', borderwidth=1,
+                        font=('Fira Code SemiBold', 15), command=blank_type)
+        login1.grid(row=12, column=1, columnspan=2)
 
+        root1.bind('<Return>', lambda event: blank_type())  # using enter key to proceed
 
+    def back_clicked():  # to go back to Welcome Screen
+        root1.destroy()
+        pass
+
+    back1 = Button(root1, text='Go Back', width=9, height=1, bg='grey', borderwidth=1,
+                   font=('Fira Code SemiBold', 15), command=back_clicked)
+    back1.grid(row=12, column=3)
 
 
 def run(number):
-    # a=try_new()
-    mycursor.execute(f'insert into info2 values({number},"B","A","L","A")')
-    con.commit()
-    mycursor.execute(f'insert into info values("True")')
-    con.commit()
-    exit()
+    global name
+    if number == 2:
+        mycursor.execute('''insert into info2 values({0},"{1}","{2}","{3}","{4}")'''.format(number, name, "Player2", final_val[0], "Player4"))
+        con.commit()
+        mycursor.execute(f'insert into info values("True")')
+        con.commit()
+        exit()
+    elif number == 3:
+        mycursor.execute('''insert into info2 values({0},"{1}","{2}","{3}","{4}")'''.format(number, name, final_val[0], final_val[1], "Player4"))
+        con.commit()
+        mycursor.execute(f'insert into info values("True")')
+        con.commit()
+        exit()
+    elif number == 4:
+        mycursor.execute('''insert into info2 values({0},"{1}","{2}","{3}","{4}")'''.format(number, name, final_val[0], final_val[1], final_val[2]))
+        con.commit()
+        mycursor.execute(f'insert into info values("True")')
+        con.commit()
+        exit()
+
+
+name = ''
+
 
 def home_screen(x):
+    global name
+    name = x
     # pass_root.destroy()
     home_root = Tk(className=' ' * 80 + 'Home Screen')
     home_root.iconbitmap('ludo_icon.ico')
     home_canvas = Canvas(home_root, width=650, height=500, bg='#00FFBC')
     home_canvas.grid(columnspan=8, rowspan=45)
+
     def multi_options(x):
         if x == 'Y':
             opt_root = Tk(className=' ')
@@ -80,15 +158,15 @@ def home_screen(x):
             opts.grid(row=1, column=0)
 
             p2 = Button(opt_root, text='2 Player', width=13, height=1, bg='grey', borderwidth=1,
-                        font=('Fira Code SemiBold', 15), command=lambda: run(2))
+                        font=('Fira Code SemiBold', 15), command=lambda: try_new(2))
             p2.grid(row=2, column=0)
 
             p3 = Button(opt_root, text='3 Player', width=13, height=1, bg='grey', borderwidth=1,
-                        font=('Fira Code SemiBold', 15),command=lambda: run(3))
+                        font=('Fira Code SemiBold', 15),command=lambda: try_new(3))
             p3.grid(row=3, column=0)
 
             p4 = Button(opt_root, text='4 Player', width=13, height=1, bg='grey', borderwidth=1,
-                        font=('Fira Code SemiBold', 15),command=lambda: run(4))
+                        font=('Fira Code SemiBold', 15),command=lambda: try_new(4))
             p4.grid(row=4, column=0)
 
 

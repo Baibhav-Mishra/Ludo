@@ -1,0 +1,9 @@
+
+
+create table info2 (number_of_players int, Player1 varchar(20), Player2 varchar(20), Player3 varchar(20), Player4 varchar(20))
+
+create table info (status varchar(10));
+
+create table members(Username varchar(30) primary key,
+User_age int, EmailID varchar(50), Password varchar(15),
+secret_choice int, secret_pass varchar(60));

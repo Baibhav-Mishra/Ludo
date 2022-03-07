@@ -92,7 +92,7 @@ def main():  # main window function
                 for i in mycursor:
                     if y == i[0]:
                         root1.destroy()
-                        forgot_screen(y)  # from home_forgot.py
+                        forgot_screen(y)  # from home_forgot0.py
                         main()
                         break
                 else:
