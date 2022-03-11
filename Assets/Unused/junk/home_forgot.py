@@ -176,7 +176,7 @@ def home_screen(x):
     greet2 = Label(home_root, text='Hello {}!'.format(x), font=('Fira Code', 28), fg='blue', bg='#00FFBC')
     greet2.grid(row=3, column=2, columnspan=4)
 
-    bg = PhotoImage(file='Assets/Boards/board300px.png')
+    bg = PhotoImage(file='../../Boards/board300px.png')
     ludo = Label(home_root, image=bg)
     ludo.grid(row=5, column=2, columnspan=4)
 
@@ -224,12 +224,12 @@ def home_screen(x):
                             font=('Fira Code SemiBold', 15), command=del_acc)
         delete_acc.grid(row=1, column=2)
 
-    sett = PhotoImage(file='Assets/Icon/settings_64.png')
+    sett = PhotoImage(file='../../Icon/settings_64.png')
 
     setting = Button(home_root, image=sett, bg='#00FFBC', borderwidth=0, command=setting_screen)
     setting.grid(row=2, column=6, columnspan=2)
 
-    close = PhotoImage(file='Assets/Icon/close_48.png')
+    close = PhotoImage(file='../../Icon/close_48.png')
 
     stop = Button(home_root, image=close, command=home_root.destroy, bg='#00FFBC', borderwidth=0)
     stop.grid(row=27, column=6, columnspan=2)

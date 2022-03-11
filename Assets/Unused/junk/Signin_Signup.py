@@ -249,7 +249,7 @@ def main():  # main window function
 
     root = Tk()
     root.title(' '*103+'Welcome Screen')
-    root.iconbitmap('ludo_icon.ico')
+    root.iconbitmap('Assets/ ')
 
     canvas1 = Canvas(root, width=800, height=500, bg='#00FFBC')
     canvas1.grid(columnspan=4, rowspan=20)
